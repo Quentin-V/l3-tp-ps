@@ -4,19 +4,34 @@ import java.io.*;
 import java.util.*;
 
 public class Matrice {
-	/** Définir ici les attributs de la classe **/
+	/* Définir ici les attributs de la classe */
 	protected double[][] coefficient;
 	
-	/** Définir ici les constructeur de la classe **/
-	Matrice (int nbligne, int nbcolonne){
+	/* Définir ici les constructeur de la classe */
+
+	/**
+	 * Constructeur qui initialise le tableau de coefficients avec un tableau vide
+	 * @param nbligne Le nombre de lignes de la matrice
+	 * @param nbcolonne Le nombre de colonnes de la matrice
+	 */
+	Matrice (int nbligne, int nbcolonne) {
 		this.coefficient = new double[nbligne][nbcolonne];
 	}
-	
-	Matrice(double[][] tableau){
+
+	/**
+	 * Constructeur qui prend en paramètre un tableau à 2 dimensions en tant que coefficients de la matrice
+	 * @param tableau Le tableau de coefficients donné
+	 */
+	Matrice(double[][] tableau) {
 		coefficient = tableau;
 	}
-	
-	Matrice(String fichier){
+
+	/**
+	 * Constructeur qui prend en paramètre un nom de fichier et qui recopie le contenu du fichier dans une matrice
+	 * Renvoie une exception si le fichier n'existe pas
+	 * @param fichier Le nom du fichier
+	 */
+	Matrice(String fichier) {
 		try {
 			Scanner sc = new Scanner(new File(fichier));
 			int ligne = sc.nextInt();
@@ -27,58 +42,89 @@ public class Matrice {
 					this.coefficient[i][j]=sc.nextDouble();
 			sc.close();
 
-		}
-		catch(FileNotFoundException e) {
+		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 			System.out.println("Fichier absent");
 		}
 	}
-	/** Definir ici les autres methodes */
-	
-	public void recopie(Matrice arecopier){
+
+	/* Definir ici les autres methodes */
+
+	/**
+	 * Méthode de recopie d'une matrice
+	 * @param arecopier La matrice à recopier
+	 */
+	public void recopie(Matrice arecopier) {
 		int ligne, colonne;
 		ligne = arecopier.nbLigne(); colonne = arecopier.nbColonne();
 		this.coefficient = new double[ligne][colonne];
 		for(int i=0; i<ligne; i++)
 			if (colonne >= 0) System.arraycopy(arecopier.coefficient[i], 0, this.coefficient[i], 0, colonne);
 	}
-	
-	public int nbLigne(){
+
+	/**
+	 * Méthode permettant de connaitre le nombre de lignes de la matrice
+	 * @return Le nombre de lignes de la matrice
+	 */
+	public int nbLigne() {
 		return this.coefficient.length;
 	}
-	
-	public int nbColonne(){
+
+	/**
+	 * Méthode permettant de connaitre le nombre de colonnes de la matrice
+	 * @return Le nombre de colonnes de la matrice
+	 */
+	public int nbColonne() {
 		return this.coefficient[0].length;
 	}
-	
-	public double getCoef(int ligne, int colonne){
+
+	/**
+	 * Méthode retournant un coefficient en fonction des paramètres donnés
+	 * @param ligne La ligne de la matrice du coefficient voulu
+	 * @param colonne La colonne de la matrice du coefficient voulu
+	 * @return Le coefficient à la ligne et la colonne données
+	 */
+	public double getCoef(int ligne, int colonne) {
 		return this.coefficient[ligne][colonne];
 	}
-	
-	public void remplacecoef(int ligne, int colonne, double value){
+
+	/**
+	 * Méthode permettant de remplacer un coefficient de la matrice en fonction des paramètres donnés
+	 * @param ligne La ligne du coefficient à remplacer
+	 * @param colonne La colonne du coefficient à remoplacer
+	 * @param value La valeur de remplacement du coefficient
+	 */
+	public void remplacecoef(int ligne, int colonne, double value) {
 		this.coefficient[ligne][colonne]=value;
 	}
-	
-	public String toString(){
+
+	/**
+	 * Méthode retournant sous forme de chaine de caractères la matrice en séparant les coefficients avec des espaces
+	 * @return La chaine de caractères qui représente la matrice
+	 */
+	public String toString() {
 		int ligne = this.nbLigne();
 		int colonne = this.nbColonne();
-		String matr = "";
-		for(int i = 0; i<ligne;i++){
-			for(int j =0; j< colonne;j++){
-				if(j == 0)
-				{
-					matr += this.getCoef(i, j);
-				}
-				else{
-					matr += " " + this.getCoef(i, j);
+		StringBuilder matr = new StringBuilder();
+		for(int i = 0; i<ligne;i++) {
+			for(int j =0; j< colonne;j++) {
+				if(j == 0) {
+					matr.append(this.getCoef(i, j));
+				}else {
+					matr.append(" ").append(this.getCoef(i, j));
 				}
 			}
-			matr += "\n";
+			matr.append("\n");
 		}
-		return matr;
+		return matr.toString();
 	}
-	
-	public Matrice produit(double scalaire){
+
+	/**
+	 * Méthode permettant de faire le produit par un scalaire de la matrice
+	 * @param scalaire Le scalaire
+	 * @return Le produit entre la matrice et le scalaire donné
+	 */
+	public Matrice produit(double scalaire) {
 		int ligne = this.nbLigne();
 		int colonne = this.nbColonne();
 		for(int i=0; i<ligne;i++)
@@ -86,8 +132,14 @@ public class Matrice {
 				this.coefficient[i][j]*=scalaire;
 		return this;
 	}
-	
-	static Matrice addition(Matrice a, Matrice b){
+
+	/**
+	 * Méthode permettant d'ajouter 2 matrices entre elles
+	 * @param a Une matrice
+	 * @param b Une autre matrice
+	 * @return L'addition des matrices a et b
+	 */
+	static Matrice addition(Matrice a, Matrice b) {
 		int ligne = a.nbLigne();
 		int colonne = a.nbColonne();
 		Matrice mat = new Matrice(ligne, colonne);
@@ -96,63 +148,62 @@ public class Matrice {
 				mat.coefficient[i][j]=a.coefficient[i][j] + b.coefficient[i][j];
 		return mat;
 	}
-	
-	static Matrice verif_addition(Matrice a, Matrice b) throws Exception{
-		if((a.nbLigne() == b.nbLigne()) && (a.nbColonne() == b.nbColonne()))
-		{
-			int ligne = a.nbLigne();
-			int colonne = a.nbColonne();
-			Matrice mat = new Matrice(ligne, colonne);
-			for(int i=0; i<ligne;i++)
-				for(int j=0; j< colonne; j++)
-					mat.coefficient[i][j]=a.coefficient[i][j] + b.coefficient[i][j];
-			return mat;
-		}
-		else {
+
+	/**
+	 * Méthode permettant d'additioner 2 matrices en vérifiant qu'on peut les additioner au préalable
+	 * Si ce n'est pas le cas, lève une exception
+	 * @param a Une matrice
+	 * @param b Une autre matrice
+	 * @return L'addition de la matrice a et b si elle est possible
+	 * @throws Exception Si les deux matrices n'ont pas les mêmes dimensions
+	 */
+	static Matrice verif_addition(Matrice a, Matrice b) throws Exception {
+		if((a.nbLigne() == b.nbLigne()) && (a.nbColonne() == b.nbColonne())) {
+			return addition(a, b);
+		}else {
 			throw new Exception("Les deux matrices n'ont pas les mêmes dimensions !!!"); 
 		}
 	}
-	
-	static Matrice produit(Matrice a, Matrice b){
+
+	/**
+	 * Méthode permettant de faire le produit de 2 matrices entre elles
+	 * @param a Une matrice
+	 * @param b Une autre matrice
+	 * @return Le produit des matrices a et b
+	 */
+	static Matrice produit(Matrice a, Matrice b) {
 		int ligne, colonne;
 		ligne = a.nbLigne();
 		colonne = b.nbColonne();		
 		Matrice mat = new Matrice(ligne, colonne);
-		for(int i=0; i<ligne;i++)
-			for(int j=0; j< colonne; j++)
-			{
+		for(int i=0; i<ligne;i++) {
+			for(int j=0; j< colonne; j++) {
 				mat.coefficient[i][j]=0;
 				for(int k=0; k <a.nbColonne();k++)
 					mat.coefficient[i][j] += a.coefficient[i][k] * b.coefficient[k][j];
 			}
-		return mat;					
-	}
-	
-	static Matrice verif_produit(Matrice a, Matrice b) throws Exception{
-		int ligne = 0;
-		int colonne = 0;
-		if(a.nbColonne()==b.nbLigne())
-		{
-			ligne = a.nbLigne();
-			colonne = b.nbColonne();
 		}
-		else{
+		return mat;
+	}
+
+	/**
+	 * Méthode permettant de faire le produit de 2 matrices entre elles en vérifiant qu'on peut faire le produit au préalable
+	 * Si ce n'est pas le cas, lève une exception
+	 * @param a Une matrice
+	 * @param b Une autre matrice
+	 * @return Le produit des la matrices a et b si possible
+	 * @throws Exception Si les deux matrices n'ont pas de dimensions compatibles
+	 */
+	static Matrice verif_produit(Matrice a, Matrice b) throws Exception {
+		if(a.nbColonne() != b.nbLigne())
 			throw new Exception("Dimensions des matrices à multiplier incorrectes");
-		}
-		
-		Matrice mat = new Matrice(ligne, colonne);
-		for(int i=0; i<ligne;i++)
-			for(int j=0; j< colonne; j++)
-			{
-				mat.coefficient[i][j]=0;
-				for(int k=0; k <a.nbColonne();k++)
-					mat.coefficient[i][j] += a.coefficient[i][k] * b.coefficient[k][j];
-			}
-		return mat;					
+		return(produit(a, b));
 	}
-		
-	
-	public static void main(String[] args) throws Exception {
+
+	/**
+	 * Main permettant de tester le classe
+	 */
+	public static void main(String[] args) {
 		double[][] mat = {{2,1},{0,1}};
 		Matrice a = new Matrice(mat);
 		System.out.println("construction d'une matrice par affectation d'un tableau :\n"+a);
