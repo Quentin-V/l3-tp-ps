@@ -1,5 +1,7 @@
 package AlgLin;
 
+import java.util.IllegalFormatException;
+
 public class Vecteur extends Matrice {
 
 	/**
@@ -76,20 +78,26 @@ public class Vecteur extends Matrice {
 	 */
 	static double scalaire(Vecteur v1, Vecteur v2) {
 		double scal = 0;
-		int v1T = v1.nbLigne();
-		int v2T = v2.nbLigne();
-		int grandeTaille = Math.max(v1T, v2T);
-		for(int i = 0; i < grandeTaille; ++i) {
-			if(i > v1T || i > v2T) break;
+		for(int i = 0; i < v1.nbLigne(); ++i)
 			scal += v1.coefficient[i][0] * v2.coefficient[i][0];
-		}
 		return scal;
 	}
 
+	/**
+	 * Retourne le produit scalaire entre 2 vecteurs s'il est possible
+	 * @param v1 le premier vecteur
+	 * @param v2 le vecteur à multiplier au premier
+	 * @return le produit scalaire de deux vecteurs s'il est possible
+	 */
+	static double scalaireVerif(Vecteur v1, Vecteur v2) {
+		if(v1.nbLigne() != v2.nbLigne()) throw new IllegalArgumentException("Les deux vecteurs n'ont pas la même taille");
+		return scalaire(v1, v2);
+	}
 
-    public static void main(String[] args) throws Exception{
-        Vecteur v = new Vecteur("./ressources/vecteur.txt");
-
-        System.out.println(v);
+    public static void main(String[] args) {
+		try {
+			Vecteur v = new Vecteur("./ressources/vecteur.txt");
+			System.out.println(v);
+		}catch(Exception ignored) {}
     }
 }
