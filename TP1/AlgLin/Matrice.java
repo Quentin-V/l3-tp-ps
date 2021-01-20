@@ -203,7 +203,7 @@ public class Matrice {
 	/**
 	 * Main permettant de tester le classe
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		double[][] mat = {{2,1},{0,1}};
 		Matrice a = new Matrice(mat);
 		System.out.println("construction d'une matrice par affectation d'un tableau :\n"+a);
