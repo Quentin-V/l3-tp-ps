@@ -38,7 +38,7 @@ public class Vecteur extends Matrice {
 		int v2T = v2.nbLigne();
 		int grandeTaille = Math.max(v1T, v2T);
 		for(int i = 0; i < grandeTaille; ++i) {
-			if(i > v1T || i > v2T) continue;
+			if(i > v1T || i > v2T) break;
 			scal += v1.coefficient[i][0] * v2.coefficient[i][0];
 		}
 		return scal;
