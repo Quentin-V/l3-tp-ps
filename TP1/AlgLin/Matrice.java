@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Matrice {
 	/** Définir ici les attributs de la classe **/
-	protected double coefficient[][];
+	protected double[][] coefficient;
 	
 	/** Définir ici les constructeur de la classe **/
 	Matrice (int nbligne, int nbcolonne){
@@ -25,10 +25,11 @@ public class Matrice {
 			for(int i=0; i<ligne;i++)
 				for(int j=0; j< colonne; j++)
 					this.coefficient[i][j]=sc.nextDouble();
-			sc.close();	
-			
+			sc.close();
+
 		}
 		catch(FileNotFoundException e) {
+			e.printStackTrace();
 			System.out.println("Fichier absent");
 		}
 	}
@@ -39,8 +40,7 @@ public class Matrice {
 		ligne = arecopier.nbLigne(); colonne = arecopier.nbColonne();
 		this.coefficient = new double[ligne][colonne];
 		for(int i=0; i<ligne; i++)
-			for (int j=0;j<colonne;j++)
-				this.coefficient[i][j]= arecopier.coefficient[i][j];	
+			if (colonne >= 0) System.arraycopy(arecopier.coefficient[i], 0, this.coefficient[i], 0, colonne);
 	}
 	
 	public int nbLigne(){
@@ -153,10 +153,10 @@ public class Matrice {
 		
 	
 	public static void main(String[] args) throws Exception {
-		double mat[][]= {{2,1},{0,1}};
+		double[][] mat = {{2,1},{0,1}};
 		Matrice a = new Matrice(mat);
 		System.out.println("construction d'une matrice par affectation d'un tableau :\n"+a);
-		Matrice b = new Matrice("matrice1.txt");
+		Matrice b = new Matrice("./ressources/matrice.txt");
 		System.out.println("Construction d'une matrice par lecture d'un fichier :\n"+b);
 		Matrice c = new Matrice(2,2);
 		c.recopie(b);
