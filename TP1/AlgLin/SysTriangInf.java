@@ -3,6 +3,12 @@ package AlgLin;
 public class SysTriangInf extends SysLin {
 	SysTriangInf(Matrice matriceSystem, Vecteur secondMembre) throws IrregularSysLinException {
 		super(matriceSystem, secondMembre);
+		for(int i = 0; i < matriceSystem.nbLigne(); ++i) {
+			if(matriceSystem.getCoef(i,i) == 0) throw new IrregularSysLinException();
+			for(int j = i+1; j < matriceSystem.nbLigne(); ++j) {
+				if(matriceSystem.getCoef(i,j) != 0) throw new IrregularSysLinException();
+			}
+		}
 	}
 
 	@Override

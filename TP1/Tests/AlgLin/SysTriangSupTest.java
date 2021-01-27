@@ -7,6 +7,33 @@ import static org.junit.jupiter.api.Assertions.*;
 class SysTriangSupTest {
 
 	@Test
+	public void testConstruct() {
+		Matrice m = new Matrice(new double[][]{
+				{1,1,1},
+				{0,1,1},
+				{0,0,1}
+		});
+		Vecteur v = new Vecteur(3);
+		try {
+			new SysTriangSup(m,v);
+		}catch (IrregularSysLinException irr) {
+			fail("Le système n'est pas créé alors qu'il devrait");
+		}
+
+		//2ème test
+		m = new Matrice(new double[][]{
+				{1,1,1}, // Système irrégulier
+				{0,1,1},
+				{0,1,1}
+		});
+		v = new Vecteur(3);
+		try {
+			new SysTriangSup(m,v);
+			fail("Le système est créé alors qu'il ne devrait pas");
+		}catch (IrregularSysLinException ignored) {}
+	}
+
+	@Test
 	void resolution() {
 		Matrice m = new Matrice(new double[][]{
 				{2, 1, 5},
