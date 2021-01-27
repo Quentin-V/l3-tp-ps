@@ -102,6 +102,15 @@ public class Vecteur extends Matrice {
         return scalaire(v1, v2);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Vecteur)) return false;
+        Vecteur v = (Vecteur) obj;
+        for(int i = 0; i < nbLigne(); ++i)
+            if(getCoef(i) != v.getCoef(i)) return false;
+        return true;
+    }
+
     public static void main(String[] args) throws Exception {
 
         Vecteur v1 = new Vecteur("./ressources/vecteur.txt");
