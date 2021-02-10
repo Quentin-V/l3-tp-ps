@@ -1,5 +1,7 @@
 package AlgLin;
 
+import static java.lang.Math.sqrt;
+
 public class Vecteur extends Matrice {
 
     /**
@@ -102,6 +104,37 @@ public class Vecteur extends Matrice {
         return scalaire(v1, v2);
     }
 
+    public double L1() {
+        double result = 0.0;
+
+        for (int i = 0; i < nbLigne(); i++) {
+            result += getCoef(i);
+        }
+
+        return result;
+    }
+
+    public double L2() {
+        double result = 0.0;
+
+        for (int i = 0; i < nbLigne(); i++) {
+            result += getCoef(i) * getCoef(i);
+        }
+
+        return sqrt(result);
+    }
+
+    public double Linf() {
+        double result = getCoef(0);
+
+        for (int i = 1; i < nbLigne(); i++) {
+            if (getCoef(i) > result)
+                result = getCoef(i);
+        }
+
+        return result;
+    }
+
     public static void main(String[] args) throws Exception {
 
         Vecteur v1 = new Vecteur("./ressources/vecteur.txt");
@@ -113,14 +146,14 @@ public class Vecteur extends Matrice {
         v2.remplacecoef(2, 80);
         System.out.println(v2);
 
-        double [] tab = {1,2,3,4,5};
-        Vecteur v3 = new Vecteur (tab);
+        double[] tab = {1, 2, 3, 4, 5};
+        Vecteur v3 = new Vecteur(tab);
         System.out.println(v3 + "\n" + v3.nbLigne());
 
         System.out.println(scalaire(v1, v3));
-        try{
+        try {
             System.out.println(scalaireVerif(v1, v3));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
