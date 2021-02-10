@@ -104,6 +104,11 @@ public class Vecteur extends Matrice {
         return scalaire(v1, v2);
     }
 
+    /**
+     * Calcul de la norme L1 du vecteur
+     *
+     * @return la norme L1 du vecteur
+     */
     public double L1() {
         double result = 0.0;
 
@@ -114,6 +119,11 @@ public class Vecteur extends Matrice {
         return result;
     }
 
+    /**
+     * Calcul de la norme L2 du vecteur
+     *
+     * @return la norme L2 du vecteur
+     */
     public double L2() {
         double result = 0.0;
 
@@ -124,6 +134,11 @@ public class Vecteur extends Matrice {
         return sqrt(result);
     }
 
+    /**
+     * Calcul de la norme LInfini du vecteur
+     *
+     * @return la norme LInfini du vecteur
+     */
     public double Linf() {
         double result = getCoef(0);
 
