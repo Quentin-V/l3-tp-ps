@@ -9,7 +9,7 @@ public class Vecteur extends Matrice {
      *
      * @param nbligne le nombre de lignes du vecteur
      */
-    Vecteur(int nbligne) {
+    public Vecteur(int nbligne) {
         super(nbligne, 1);
     }
 
@@ -18,7 +18,7 @@ public class Vecteur extends Matrice {
      *
      * @param tableau le tableau à recopier dans le vecteur
      */
-    Vecteur(double[] tableau) {
+    public Vecteur(double[] tableau) {
         super(tableau.length, 1);
         for (int i = 0; i < tableau.length; ++i) {
             this.coefficient[i][0] = tableau[i];
@@ -31,7 +31,7 @@ public class Vecteur extends Matrice {
      * @param fichier le fichier source
      * @throws Exception renvoie une exception si le vecteur a plus d'une colonne (erreur dans le fichier source)
      */
-    Vecteur(String fichier) throws Exception {
+    public Vecteur(String fichier) throws Exception {
         super(fichier);
         if (nbColonne() != 1)
             throw new Exception("Il y a trop de colonne définies dans le fichier pour que cela soit un vecteur");

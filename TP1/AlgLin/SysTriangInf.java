@@ -1,7 +1,7 @@
 package AlgLin;
 
 public class SysTriangInf extends SysLin {
-	SysTriangInf(Matrice matriceSystem, Vecteur secondMembre) throws IrregularSysLinException {
+	public SysTriangInf(Matrice matriceSystem, Vecteur secondMembre) throws IrregularSysLinException {
 		super(matriceSystem, secondMembre);
 		for(int i = 0; i < matriceSystem.nbLigne(); ++i) {
 			if(matriceSystem.getCoef(i,i) == 0) throw new IrregularSysLinException();

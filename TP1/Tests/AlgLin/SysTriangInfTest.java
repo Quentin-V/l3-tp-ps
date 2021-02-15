@@ -1,6 +1,10 @@
-package AlgLin;
+package Tests.AlgLin;
 
 
+import AlgLin.IrregularSysLinException;
+import AlgLin.Matrice;
+import AlgLin.SysTriangInf;
+import AlgLin.Vecteur;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

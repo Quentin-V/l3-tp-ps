@@ -14,7 +14,7 @@ public class Matrice {
 	 * @param nbligne Le nombre de lignes de la matrice
 	 * @param nbcolonne Le nombre de colonnes de la matrice
 	 */
-	Matrice (int nbligne, int nbcolonne) {
+	public Matrice (int nbligne, int nbcolonne) {
 		this.coefficient = new double[nbligne][nbcolonne];
 	}
 
@@ -22,7 +22,7 @@ public class Matrice {
 	 * Constructeur qui prend en paramètre un tableau à 2 dimensions en tant que coefficients de la matrice
 	 * @param tableau Le tableau de coefficients donné
 	 */
-	Matrice(double[][] tableau) {
+	public Matrice(double[][] tableau) {
 		coefficient = tableau;
 	}
 
@@ -31,7 +31,7 @@ public class Matrice {
 	 * Renvoie une exception si le fichier n'existe pas
 	 * @param fichier Le nom du fichier
 	 */
-	Matrice(String fichier) {
+	public Matrice(String fichier) {
 		try {
 			Scanner sc = new Scanner(new File(fichier));
 			int ligne = sc.nextInt();
