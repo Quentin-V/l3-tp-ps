@@ -4,6 +4,7 @@ package AlgLin;
  * @author Joshua Galien - Quentin Vauthier
  */
 public class SysTriangInfUnite extends SysTriangInf {
+
     /**
      * Constructeur de la classe SysTriangInfUnite
      *
@@ -11,8 +12,14 @@ public class SysTriangInfUnite extends SysTriangInf {
      * @param secondMembre  le second membre du système
      * @throws IrregularSysLinException si le système linéaire n'est pas régulier
      */
-    SysTriangInfUnite(Matrice matriceSystem, Vecteur secondMembre) throws IrregularSysLinException {
+    public SysTriangInfUnite(Matrice matriceSystem, Vecteur secondMembre) throws IrregularSysLinException {
         super(matriceSystem, secondMembre);
+
+        for (int i = 0; i < matriceSystem.nbColonne(); i++) {
+            if(matriceSystem.getCoef(i, i) != 1){
+                throw new IrregularSysLinException();
+            }
+        }
     }
 
     /**

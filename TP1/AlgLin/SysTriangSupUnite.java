@@ -12,8 +12,14 @@ public class SysTriangSupUnite extends SysTriangSup {
      * @param secondMembre  le second membre du système
      * @throws IrregularSysLinException si le système linéaire n'est pas régulier
      */
-    SysTriangSupUnite(Matrice matriceSystem, Vecteur secondMembre) throws IrregularSysLinException {
+    public SysTriangSupUnite(Matrice matriceSystem, Vecteur secondMembre) throws IrregularSysLinException {
         super(matriceSystem, secondMembre);
+
+        for (int i = 0; i < matriceSystem.nbColonne(); i++) {
+            if(matriceSystem.getCoef(i, i) != 1){
+                throw new IrregularSysLinException();
+            }
+        }
     }
 
     /**
