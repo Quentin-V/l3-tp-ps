@@ -2,6 +2,11 @@ package AlgLin;
 
 import static java.lang.Math.sqrt;
 
+/**
+ * Classe définissant un Vecteur
+ *
+ * @author Joshua Galien - Quentin Vauthier
+ */
 public class Vecteur extends Matrice {
 
     /**

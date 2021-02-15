@@ -1,11 +1,29 @@
 package AlgLin;
 
+/**
+ * Classe définissant un système linéaire diagonal
+ *
+ * @author Joshua Galien - Quentin Vauthier
+ */
 public class SysDiagonal extends SysLin {
 
-    public SysDiagonal(Matrice m, Vecteur v) throws IrregularSysLinException {
-        super(m, v);
+    /**
+     * Constructeur de la classe SysDiagonal
+     *
+     * @param matriceSysteme la matrice du système
+     * @param secondMembre le second membre du système
+     * @throws IrregularSysLinException si le système linéaire n'est pas régulier
+     */
+    public SysDiagonal(Matrice matriceSysteme, Vecteur secondMembre) throws IrregularSysLinException {
+        super(matriceSysteme, secondMembre);
     }
 
+    /**
+     * Méthode permettant de résoudre le système
+     *
+     * @return le vecteur correspondant à la résolution
+     * @throws IrregularSysLinException si le système linéaire n'est pas régulier
+     */
     @Override
     public Vecteur resolution() throws IrregularSysLinException {
 

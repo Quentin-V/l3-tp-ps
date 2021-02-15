@@ -1,6 +1,5 @@
 package Tests.AlgLin;
 
-
 import AlgLin.IrregularSysLinException;
 import AlgLin.Matrice;
 import AlgLin.SysTriangInf;
@@ -10,6 +9,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+/**
+ * Classe de tests sur la classe SysTriangInf
+ *
+ * @author Joshua Galien - Quentin Vauthier
+ */
 class SysTriangInfTest {
 
 	@Test

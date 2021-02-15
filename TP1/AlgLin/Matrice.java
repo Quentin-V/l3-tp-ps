@@ -3,8 +3,17 @@ package AlgLin;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Classe définissant une matrice
+ *
+ * @author Joshua Galien - Quentin Vauthier
+ */
 public class Matrice {
 	/* Définir ici les attributs de la classe */
+
+	/**
+	 * Coefficients de la matrice
+	 */
 	protected double[][] coefficient;
 	
 	/* Définir ici les constructeur de la classe */
