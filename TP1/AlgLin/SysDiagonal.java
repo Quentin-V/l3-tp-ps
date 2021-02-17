@@ -43,13 +43,11 @@ public class SysDiagonal extends SysLin {
 
     public static void main(String[] args) throws IrregularSysLinException {
         double[][] mat = {{2, 0}, {0, 2}};
-        Matrice a = new Matrice(mat);
-        System.out.println(a.toString());
-        Vecteur vecteur1 = new Vecteur(2);
-        vecteur1.remplacecoef(0, 1);
-        vecteur1.remplacecoef(1, 2);
-        System.out.println(vecteur1);
-        SysDiagonal diag = new SysDiagonal(a, vecteur1);
+        Matrice matrice = new Matrice(mat);
+        System.out.println(matrice.toString());
+        Vecteur vecteur = new Vecteur(new double[] {1,2});
+        System.out.println(vecteur);
+        SysDiagonal diag = new SysDiagonal(matrice, vecteur);
         System.out.println("résolution = \n" + diag.resolution());
     }
 }

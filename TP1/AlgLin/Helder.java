@@ -181,14 +181,16 @@ public class Helder extends SysLin {
 
         System.out.println("vérification : \n ");
 
-        Vecteur verif = (Vecteur)
-                Matrice.produit(
-                        Matrice.produit(matrice, res),
-                        res.produit(-1));
+        Matrice matrice1 = Matrice.addition(Matrice.produit(matrice, res), vecteur.produit(-1));
+        Vecteur verif = new Vecteur(matrice1.nbLigne());
+
+        for (int i = 0; i < matrice1.nbLigne(); i++) {
+            verif.remplacecoef(i, matrice1.getCoef(i, 0));
+        }
+
+        System.out.println(verif);
 
         System.out.println(verif.L1());
-
-
 
     }
 }

@@ -31,8 +31,12 @@ public abstract class SysLin {
     public SysLin(Matrice matriceSystem, Vecteur secondMembre) throws IrregularSysLinException {
         if (matriceSystem.nbLigne() != matriceSystem.nbColonne() || matriceSystem.nbLigne() != secondMembre.nbLigne())
             throw new IrregularSysLinException();
-        this.matriceSystem = matriceSystem;
-        this.secondMembre = secondMembre;
+        this.ordre = matriceSystem.nbColonne();
+        this.matriceSystem = new Matrice(ordre, ordre);
+        this.matriceSystem.recopie(matriceSystem);
+
+        this.secondMembre = new Vecteur(ordre);
+        this.secondMembre.recopie(secondMembre);
     }
 
     /**

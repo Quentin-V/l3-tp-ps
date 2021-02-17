@@ -16,9 +16,7 @@ public class SysTriangSupUnite extends SysTriangSup {
         super(matriceSystem, secondMembre);
 
         for (int i = 0; i < matriceSystem.nbColonne(); i++) {
-            if(matriceSystem.getCoef(i, i) != 1){
-                throw new IrregularSysLinException();
-            }
+            this.matriceSystem.remplacecoef(i, i, 1);
         }
     }
 
