@@ -9,6 +9,9 @@ import java.util.*;
  * @author Joshua Galien - Quentin Vauthier
  */
 public class Matrice {
+
+    final static double EPSILON = 0.000001;
+
     /* Définir ici les attributs de la classe */
 
     /**
@@ -227,7 +230,7 @@ public class Matrice {
     /**
      * Main permettant de tester le classe
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         double[][] mat = {{2, 1}, {0, 1}};
         Matrice a = new Matrice(mat);
         System.out.println("construction d'une matrice par affectation d'un tableau :\n" + a);
