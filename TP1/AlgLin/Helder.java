@@ -55,43 +55,20 @@ public class Helder extends SysLin {
      * coefficients non nuls et non égaux à 1 des trois matrices L, D et R.
      */
     public void factorLDR() {
-        for (int i = 0; i < getOrdre(); i++) {
-            double somme = 0;
-            for (int j = 0; j < i; j++) {
-                for (int k = 0; k < j; k++) {
-                    somme += L.getMatriceSystem().getCoef(i, k) * D.getMatriceSystem().getCoef(k, k) * R.getMatriceSystem().getCoef(k, j);
-                }
-                L.getMatriceSystem().remplacecoef(i, j, (1 / D.getMatriceSystem().getCoef(j, j)) * (matriceSystem.getCoef(i, j) - somme));
-            }
-            somme = 0;
-            for (int k = 0; k < i; k++) {
-                somme += L.getMatriceSystem().getCoef(i, k) * D.getMatriceSystem().getCoef(k, k) * R.getMatriceSystem().getCoef(k, i);
-            }
-            D.getMatriceSystem().remplacecoef(i, i, matriceSystem.getCoef(i, i) - somme);
-            somme = 0;
-            for (int j = i + 1; j < getOrdre(); j++) {
-                for (int k = 0; k < i; k++) {
-                    somme += L.getMatriceSystem().getCoef(i, k) * D.getMatriceSystem().getCoef(k, k) * R.getMatriceSystem().getCoef(k, j);
-                }
-                R.getMatriceSystem().remplacecoef(i, j, (1 / D.getMatriceSystem().getCoef(i, i)) * (matriceSystem.getCoef(i, j) - somme));
-            }
-        }
+        Matrice matriceL = new Matrice(this.getOrdre(), this.getOrdre());
 
-        for (int i = 0; i < getOrdre(); i++) {
-            for (int j = 0; j < getOrdre(); j++) {
-                if (i == j) {
-                    if (D.getMatriceSystem().getCoef(i, j) != 0 && D.getMatriceSystem().getCoef(i, j) != 1)
-                        matriceSystem.remplacecoef(i, j, D.getMatriceSystem().getCoef(i, j));
+        for (int i = 0; i < this.getOrdre(); i++) {
+            for (int j = i + 1; j < this.getOrdre(); j++)
+                for (int k = i; k < this.getOrdre(); k++) {
+                    if (k == i)
+                        matriceL.remplacecoef(j, k, this.matriceSystem.getCoef(j, k) / this.matriceSystem.getCoef(i, i));
+                    this.matriceSystem.remplacecoef(j, k, this.matriceSystem.getCoef(j, k) - (matriceL.getCoef(j, i) * this.matriceSystem.getCoef(i, k)));
                 }
-                if (i < j) {
-                    if (R.getMatriceSystem().getCoef(i, j) != 0 && R.getMatriceSystem().getCoef(i, j) != 1)
-                        matriceSystem.remplacecoef(i, j, R.getMatriceSystem().getCoef(i, j));
-                }
-                if (i > j) {
-                    if (L.getMatriceSystem().getCoef(i, j) != 0 && L.getMatriceSystem().getCoef(i, j) != 1)
-                        matriceSystem.remplacecoef(i, j, L.getMatriceSystem().getCoef(i, j));
-                }
-            }
+            for (int j = 0; j < this.getOrdre(); j++)
+                if (j > i)
+                    this.matriceSystem.remplacecoef(i, j, this.matriceSystem.getCoef(i, j) / this.matriceSystem.getCoef(i, i));
+                else if (j < i)
+                    this.matriceSystem.remplacecoef(i, j, matriceL.getCoef(i, j));
         }
     }
 
@@ -101,14 +78,14 @@ public class Helder extends SysLin {
      * @param newSecondMembre le nouveau second membre du système
      */
     public void setSecondMembre(Vecteur newSecondMembre) {
-        this.secondMembre = newSecondMembre;
+        this.secondMembre.recopie(newSecondMembre);
     }
 
     public static void main(String[] args) throws IrregularSysLinException {
-        double[][] mat = {{2, 1}, {1, 2}};
+        double[][] mat = {{4, -20, -12}, {-8, 45, 44}, {20, -105, -79}};
         Matrice matrice = new Matrice(mat);
         System.out.println(matrice.toString());
-        Vecteur vecteur = new Vecteur(new double[]{3, 2});
+        Vecteur vecteur = new Vecteur(new double[]{5, 4, 9});
         System.out.println(vecteur);
         Helder h = new Helder(matrice, vecteur);
         Vecteur res = h.resolution();

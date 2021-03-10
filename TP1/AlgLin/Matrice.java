@@ -109,7 +109,7 @@ public class Matrice {
     }
 
     public Vecteur getColonne(int colonne) {
-        Vecteur toReturn = new Vecteur(nbColonne());
+        Vecteur toReturn = new Vecteur(nbLigne());
 
         for (int i = 0; i < nbLigne(); i++) {
             toReturn.remplacecoef(i, getCoef(i, colonne));
@@ -237,18 +237,68 @@ public class Matrice {
         return (produit(a, b));
     }
 
+    public static Matrice reduce(Matrice x, Matrice y, int r, int c, int n) {
+        for (int h = 0, j = 0; h < n; h++) {
+            if (h == r) continue;
+            for (int i = 0, k = 0; i < n; i++) {
+                if (i == c) continue;
+                y.remplacecoef(j, k, x.getCoef(h, i));
+                k++;
+            }
+            j++;
+        }
+        return y;
+    }
+
+    public static double det(int NMAX, Matrice x) {
+        double ret = 0;
+        if (NMAX < 4) {
+            double prod1, prod2;
+            for (int i = 0; i < NMAX; i++) {
+                prod1 = 1;
+                prod2 = 1;
+
+                for (int j = 0; j < NMAX; j++) {
+                    prod1 *= x.getCoef(((j + i + 1) % NMAX), j);
+                    prod2 *= x.getCoef(((j + i + 1) % NMAX), (NMAX - j - 1));
+                }
+
+                ret += prod1 - prod2;
+            }
+            return ret * -1;
+        }
+
+        Matrice y = new Matrice(NMAX - 1, NMAX - 1);
+        for (int h = 0; h < NMAX; h++) {
+            if (x.getCoef(h, 0) == 0)
+                continue;
+            reduce(x, y, h, 0, NMAX);
+            Matrice copiey = new Matrice(y.nbLigne(), y.nbColonne());
+            copiey.recopie(y);
+            if (x.getCoef(h, 0) % 2 == 0) ret += det(NMAX - 1, copiey) * x.getCoef(h, 0);
+            if (x.getCoef(h, 0) % 2 == 1) ret -= det(NMAX - 1, copiey) * x.getCoef(h, 0);
+        }
+
+        return ret;
+    }
+
     public Matrice inverse() throws IllegalOperationException, IrregularSysLinException {
         if (nbLigne() != nbColonne()) throw new IllegalOperationException();
-        Matrice toReturn = new Matrice(nbLigne(), nbColonne()), identite = new Matrice(nbLigne(), nbColonne());
+        Matrice toReturn = new Matrice(nbLigne(), nbColonne()),
+                identite = new Matrice(nbLigne(), nbColonne());
 
         for (int i = 0; i < nbLigne(); i++) {
             identite.remplacecoef(i, i, 1);
         }
-        System.out.println("identite = " + identite);
+
         for (int i = 0; i < nbColonne(); i++) {
             Vecteur secondMembre = identite.getColonne(i);
-            Vecteur res = new Helder(this, secondMembre).resolution();
-            System.out.println("res = " + res);
+            Helder helder = new Helder(this, secondMembre);
+            helder.factorLDR();
+            Vecteur res = helder.resolutionPartielle();
+
+            System.out.println("res = \n" + res);
+
             for (int j = 0; j < res.nbLigne(); j++) {
                 toReturn.remplacecoef(j, i, res.getCoef(j));
             }
@@ -297,11 +347,14 @@ public class Matrice {
 //        System.out.println("matrice 1 :\n" + a + "matrice 2 :\n" + b + "produit :\n" +
 //                produit(a, b));
 
-        Matrice matrice = new Matrice(new double[][]{{1, 2}, {0, 1}});
+        Matrice matrice = new Matrice(new double[][]{{4, -20, -12}, {-8, 45, 44}, {20, -105, -79}});
+
         Matrice inverse = matrice.inverse();
 
-        System.out.println(inverse);
+        System.out.println("inverse = " + inverse);
 
         System.out.println(Matrice.produit(matrice, inverse));
+
+        System.out.println("det(3, matrice) = " + det(3, matrice));
     }
 }

@@ -26,15 +26,12 @@ public class SysDiagonal extends SysLin {
      */
     @Override
     public Vecteur resolution() throws IrregularSysLinException {
-
-        Matrice m = super.getMatriceSystem();
-        Vecteur v = super.getSecondMembre();
-        Vecteur res = new Vecteur(super.getMatriceSystem().nbLigne());
+        Vecteur res = new Vecteur(matriceSystem.nbLigne());
 
         double x;
 
-        for (int i = 0; i < super.getMatriceSystem().nbLigne(); i++) {
-            x = v.getCoef(i) / m.getCoef(i, i);
+        for (int i = 0; i < matriceSystem.nbLigne(); i++) {
+            x = secondMembre.getCoef(i) / matriceSystem.getCoef(i, i);
             res.remplacecoef(i, x);
         }
 

@@ -9,7 +9,7 @@ public abstract class SysLin {
     /**
      * Ordre du système
      */
-    private int ordre;
+    private final int ordre;
 
     /**
      * Matrice du sysème
