@@ -283,6 +283,7 @@ public class Matrice {
     }
 
     public Matrice inverse() throws IllegalOperationException, IrregularSysLinException {
+        //TODO vérification du déterminant != 0 sinon throw exception
         if (nbLigne() != nbColonne()) throw new IllegalOperationException();
         Matrice toReturn = new Matrice(nbLigne(), nbColonne()),
                 identite = new Matrice(nbLigne(), nbColonne());
@@ -296,8 +297,6 @@ public class Matrice {
             Helder helder = new Helder(this, secondMembre);
             helder.factorLDR();
             Vecteur res = helder.resolutionPartielle();
-
-            System.out.println("res = \n" + res);
 
             for (int j = 0; j < res.nbLigne(); j++) {
                 toReturn.remplacecoef(j, i, res.getCoef(j));
@@ -347,7 +346,7 @@ public class Matrice {
 //        System.out.println("matrice 1 :\n" + a + "matrice 2 :\n" + b + "produit :\n" +
 //                produit(a, b));
 
-        Matrice matrice = new Matrice(new double[][]{{4, -20, -12}, {-8, 45, 44}, {20, -105, -79}});
+        Matrice matrice = new Matrice(new double[][]{{4, -20, -12, 63}, {-8, 45, 44, 1}, {20, -105, -79, 8}, {-15, 7, -32, 45}});
 
         Matrice inverse = matrice.inverse();
 
@@ -355,6 +354,6 @@ public class Matrice {
 
         System.out.println(Matrice.produit(matrice, inverse));
 
-        System.out.println("det(3, matrice) = " + det(3, matrice));
+        System.out.println("det(3, matrice) = " + det(4, matrice));
     }
 }
