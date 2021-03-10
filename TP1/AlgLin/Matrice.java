@@ -108,6 +108,16 @@ public class Matrice {
         return this.coefficient[ligne][colonne];
     }
 
+    public Vecteur getColonne(int colonne) {
+        Vecteur toReturn = new Vecteur(nbColonne());
+
+        for (int i = 0; i < nbLigne(); i++) {
+            toReturn.remplacecoef(i, getCoef(i, colonne));
+        }
+
+        return toReturn;
+    }
+
     /**
      * Méthode permettant de remplacer un coefficient de la matrice en fonction des paramètres donnés
      *
@@ -227,32 +237,71 @@ public class Matrice {
         return (produit(a, b));
     }
 
+    public Matrice inverse() throws IllegalOperationException, IrregularSysLinException {
+        if (nbLigne() != nbColonne()) throw new IllegalOperationException();
+        Matrice toReturn = new Matrice(nbLigne(), nbColonne()), identite = new Matrice(nbLigne(), nbColonne());
+
+        for (int i = 0; i < nbLigne(); i++) {
+            identite.remplacecoef(i, i, 1);
+        }
+        System.out.println("identite = " + identite);
+        for (int i = 0; i < nbColonne(); i++) {
+            Vecteur secondMembre = identite.getColonne(i);
+            Vecteur res = new Helder(this, secondMembre).resolution();
+            System.out.println("res = " + res);
+            for (int j = 0; j < res.nbLigne(); j++) {
+                toReturn.remplacecoef(j, i, res.getCoef(j));
+            }
+        }
+
+        return toReturn;
+    }
+
+    public double norme_1() {
+        return 0.0;
+    }
+
+    public double norme_inf() {
+        return 0.0;
+    }
+
+    public void conditionnement() {
+
+    }
+
     /**
      * Main permettant de tester le classe
      */
-    public static void main(String[] args) {
-        double[][] mat = {{2, 1}, {0, 1}};
-        Matrice a = new Matrice(mat);
-        System.out.println("construction d'une matrice par affectation d'un tableau :\n" + a);
-        Matrice b = new Matrice("./ressources/matrice.txt");
-        System.out.println("Construction d'une matrice par lecture d'un fichier :\n" + b);
-        Matrice c = new Matrice(2, 2);
-        c.recopie(b);
-        System.out.println("Recopie de la matrice b :\n" + c);
-        System.out.println("Nombre de lignes et colonnes de la matrice c : " + c.nbLigne() +
-                ", " + c.nbColonne());
-        System.out.println("Coefficient (2,2) de la matrice b : " + b.getCoef(1, 1));
-        System.out.println("Nouvelle valeur de ce coefficient : 8");
-        b.remplacecoef(1, 1, 8);
-        System.out.println("Vérification de la modification du coefficient");
-        System.out.println("Coefficient (2,2) de la matrice b : " + b.getCoef(1, 1));
-        System.out.println("Addition de 2 matrices : affichage des 2 matrices " +
-                "puis de leur addition");
-        System.out.println("matrice 1 :\n" + a + "matrice 2 :\n" + b + "somme :\n" +
-                Matrice.addition(a, b));
-        System.out.println("Produit de 2 matrices : affichage des 2 matrices " +
-                "puis de leur produit");
-        System.out.println("matrice 1 :\n" + a + "matrice 2 :\n" + b + "produit :\n" +
-                produit(a, b));
+    public static void main(String[] args) throws IrregularSysLinException, IllegalOperationException, Exception {
+//        double[][] mat = {{2, 1}, {0, 1}};
+//        Matrice a = new Matrice(mat);
+//        System.out.println("construction d'une matrice par affectation d'un tableau :\n" + a);
+//        Matrice b = new Matrice("./ressources/matrice.txt");
+//        System.out.println("Construction d'une matrice par lecture d'un fichier :\n" + b);
+//        Matrice c = new Matrice(2, 2);
+//        c.recopie(b);
+//        System.out.println("Recopie de la matrice b :\n" + c);
+//        System.out.println("Nombre de lignes et colonnes de la matrice c : " + c.nbLigne() +
+//                ", " + c.nbColonne());
+//        System.out.println("Coefficient (2,2) de la matrice b : " + b.getCoef(1, 1));
+//        System.out.println("Nouvelle valeur de ce coefficient : 8");
+//        b.remplacecoef(1, 1, 8);
+//        System.out.println("Vérification de la modification du coefficient");
+//        System.out.println("Coefficient (2,2) de la matrice b : " + b.getCoef(1, 1));
+//        System.out.println("Addition de 2 matrices : affichage des 2 matrices " +
+//                "puis de leur addition");
+//        System.out.println("matrice 1 :\n" + a + "matrice 2 :\n" + b + "somme :\n" +
+//                Matrice.addition(a, b));
+//        System.out.println("Produit de 2 matrices : affichage des 2 matrices " +
+//                "puis de leur produit");
+//        System.out.println("matrice 1 :\n" + a + "matrice 2 :\n" + b + "produit :\n" +
+//                produit(a, b));
+
+        Matrice matrice = new Matrice(new double[][]{{1, 2}, {0, 1}});
+        Matrice inverse = matrice.inverse();
+
+        System.out.println(inverse);
+
+        System.out.println(Matrice.produit(matrice, inverse));
     }
 }
