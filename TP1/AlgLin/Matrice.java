@@ -250,38 +250,6 @@ public class Matrice {
         return y;
     }
 
-    public static double det(int NMAX, Matrice x) {
-        double ret = 0;
-        if (NMAX < 4) {
-            double prod1, prod2;
-            for (int i = 0; i < NMAX; i++) {
-                prod1 = 1;
-                prod2 = 1;
-
-                for (int j = 0; j < NMAX; j++) {
-                    prod1 *= x.getCoef(((j + i + 1) % NMAX), j);
-                    prod2 *= x.getCoef(((j + i + 1) % NMAX), (NMAX - j - 1));
-                }
-
-                ret += prod1 - prod2;
-            }
-            return ret * -1;
-        }
-
-        Matrice y = new Matrice(NMAX - 1, NMAX - 1);
-        for (int h = 0; h < NMAX; h++) {
-            if (x.getCoef(h, 0) == 0)
-                continue;
-            reduce(x, y, h, 0, NMAX);
-            Matrice copiey = new Matrice(y.nbLigne(), y.nbColonne());
-            copiey.recopie(y);
-            if (x.getCoef(h, 0) % 2 == 0) ret += det(NMAX - 1, copiey) * x.getCoef(h, 0);
-            if (x.getCoef(h, 0) % 2 == 1) ret -= det(NMAX - 1, copiey) * x.getCoef(h, 0);
-        }
-
-        return ret;
-    }
-
     public Matrice inverse() throws IllegalOperationException, IrregularSysLinException {
         //TODO vérification du déterminant != 0 sinon throw exception
         if (nbLigne() != nbColonne()) throw new IllegalOperationException();
@@ -304,6 +272,45 @@ public class Matrice {
         }
 
         return toReturn;
+    }
+
+
+    public static double getDeterminant(Matrice matrice) throws IllegalOperationException {
+        if(matrice.nbColonne() != matrice.nbLigne()) throw new IllegalOperationException();
+        if(matrice.nbLigne() == 2) return matrice.getCoef(0,0) * matrice.getCoef(1,1) - (matrice.getCoef(0,1) * matrice.getCoef(1,0));
+
+        double det = 0;
+        for(int i = 0; i < matrice.nbColonne(); ++i) {
+            det += Math.pow(-1, i) * matrice.getCoef(0,i) * getDeterminant(matrice.cofactor(0,i));
+        }
+        return det;
+    }
+
+    private Matrice cofactor(int ligne, int colonne) {
+        Matrice cofact = new Matrice(nbLigne()-1, nbColonne()-1);
+
+        for(int i = 0; i < nbLigne(); ++i) {
+            if(i == ligne) continue;
+            for(int j = 0; j < nbColonne(); ++j) {
+                if(j == colonne) continue;
+                if(i > ligne) {
+                    if(j > colonne) {
+                        cofact.remplacecoef(i-1, j-1, getCoef(i, j));
+                    }else {
+                        cofact.remplacecoef(i-1, j, getCoef(i, j));
+                    }
+                }else {
+                    if(j > colonne) {
+                        cofact.remplacecoef(i, j-1, getCoef(i, j));
+                    }else {
+                        cofact.remplacecoef(i, j, getCoef(i, j));
+                    }
+                }
+
+            }
+        }
+
+        return cofact;
     }
 
     public double norme_1() {
@@ -346,6 +353,7 @@ public class Matrice {
 //        System.out.println("matrice 1 :\n" + a + "matrice 2 :\n" + b + "produit :\n" +
 //                produit(a, b));
 
+        /*
         Matrice matrice = new Matrice(new double[][]{{4, -20, -12, 63}, {-8, 45, 44, 1}, {20, -105, -79, 8}, {-15, 7, -32, 45}});
 
         Matrice inverse = matrice.inverse();
@@ -355,5 +363,16 @@ public class Matrice {
         System.out.println(Matrice.produit(matrice, inverse));
 
         System.out.println("det(3, matrice) = " + det(4, matrice));
+
+         */
+
+        Matrice matrice = new Matrice(new double[][]{{1,2,3,4}, {3,2,1,4}, {5,3,5,6}, {4,1,2,4}});
+        //Matrice matrice = new Matrice(new double[][]{{4,-1,1}, {4,5,3}, {-2,0,0}});
+        //Matrice matrice = new Matrice(new double[][]{{1,2}, {3,2}});
+        System.out.println("Matrice : \n" + matrice);
+
+        //System.out.println("Cofactor : " + matrice.cofactor(1,1));
+        System.out.println("Determinant : " + getDeterminant(matrice));
+
     }
 }
