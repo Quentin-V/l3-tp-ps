@@ -314,11 +314,27 @@ public class Matrice {
     }
 
     public double norme_1() {
-        return 0.0;
+        double max = 0;
+        for(int i = 0; i < nbColonne(); ++i) {
+            double tempMax = 0;
+            for(int j = 0; j < nbLigne(); ++j) {
+                tempMax += getCoef(j, i) * (getCoef(j, i) > 0 ? 1:-1);
+            }
+            max = Math.max(tempMax, max);
+        }
+        return max;
     }
 
     public double norme_inf() {
-        return 0.0;
+        double max = 0;
+        for(int i = 0; i < nbLigne(); ++i) {
+            double tempMax = 0;
+            for(int j = 0; j < nbColonne(); ++j) {
+                tempMax += getCoef(i, j) * (getCoef(i, j) > 0 ? 1:-1);
+            }
+            max = Math.max(tempMax, max);
+        }
+        return max;
     }
 
     public void conditionnement() {
