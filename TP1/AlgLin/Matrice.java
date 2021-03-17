@@ -239,25 +239,7 @@ public class Matrice {
 
     public Matrice inverse() throws IllegalOperationException, IrregularSysLinException {
         if (nbLigne() != nbColonne() || getDeterminant(this) == 0) throw new IllegalOperationException();
-        Matrice toReturn = new Matrice(nbLigne(), nbColonne()),
-                identite = new Matrice(nbLigne(), nbColonne());
-
-        for (int i = 0; i < nbLigne(); i++) {
-            identite.remplacecoef(i, i, 1);
-        }
-
-        for (int i = 0; i < nbColonne(); i++) {
-            Vecteur secondMembre = identite.getColonne(i);
-            Helder helder = new Helder(this, secondMembre);
-            helder.factorLDR();
-            Vecteur res = helder.resolutionPartielle();
-
-            for (int j = 0; j < res.nbLigne(); j++) {
-                toReturn.remplacecoef(j, i, res.getCoef(j));
-            }
-        }
-
-        return toReturn;
+        return inverseNoVerif();
     }
 
     public Matrice inverseNoVerif() throws IllegalOperationException, IrregularSysLinException {
