@@ -55,18 +55,16 @@ public class HilbertMatrice {
 
 	static double calculDistance(Matrice m) {
 		Matrice diff = Matrice.addition(m, identite(m.nbColonne()).produit(-1));
-		return diff.norme_inf();
+		return diff.norme_1();
 	}
 
 	static Matrice identite(int ordre) {
 		Matrice id = new Matrice(ordre, ordre);
-
 		for(int i = 0; i < id.nbLigne(); ++i) {
 			for(int j = 0; j < id.nbColonne(); ++j) {
 				if(i == j) id.remplacecoef(i, j, 1);
 			}
 		}
-
 		return id;
 	}
 
