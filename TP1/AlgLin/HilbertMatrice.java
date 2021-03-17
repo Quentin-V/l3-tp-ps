@@ -3,7 +3,7 @@ package AlgLin;
 public class HilbertMatrice {
 
 	final static int ORDRE_MIN = 3;
-	final static int ORDRE_MAX = 3;
+	final static int ORDRE_MAX = 20;
 
 	public static void main(String[] args) throws IrregularSysLinException, IllegalOperationException {
 
@@ -18,10 +18,12 @@ public class HilbertMatrice {
 			Matrice produit = Matrice.produit(inv, m);
 
 			//System.out.println("Produit : \n" + produit);
-			System.out.println("Calcul de distance avec le produit de l'inverse (moyenne) : " + calculDistance(produit));
-			System.out.println("Conditionnement de l'inverse : ");
+
+			System.out.println("Calcul de distance : " + calculDistance(produit));
+
 			inv.conditionnement(Matrice::norme_1);
 			inv.conditionnement(Matrice::norme_inf);
+
 			System.out.println("Vérification du produit (Toutes les valeurs bonnes +/- Epsilon) : " + verifIdentite(produit));
 			if(!verifIdentite(produit)) System.err.println("Erreur de vérification pour la matrice d'ordre " + ordre);
 		}
@@ -52,17 +54,20 @@ public class HilbertMatrice {
 	}
 
 	static double calculDistance(Matrice m) {
-		double distance = 0;
-		for(int i = 0; i < m.nbLigne(); ++i) {
-			for(int j = 0; j < m.nbColonne(); ++j) {
-				double coeff = m.getCoef(i, j);
-				int ref = i == j ? 1 : 0;
-				if(coeff >= ref) distance += coeff - ref;
-				else distance += ref - coeff;
+		Matrice diff = Matrice.addition(m, identite(m.nbColonne()).produit(-1));
+		return diff.norme_inf();
+	}
+
+	static Matrice identite(int ordre) {
+		Matrice id = new Matrice(ordre, ordre);
+
+		for(int i = 0; i < id.nbLigne(); ++i) {
+			for(int j = 0; j < id.nbColonne(); ++j) {
+				if(i == j) id.remplacecoef(i, j, 1);
 			}
 		}
-		distance /= m.nbLigne() * m.nbColonne();
-		return distance;
+
+		return id;
 	}
 
 }
