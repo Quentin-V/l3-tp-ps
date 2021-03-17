@@ -377,13 +377,15 @@ public class Matrice {
 
         Matrice matrice = new Matrice(new double[][]{{4, -20, -12, 63}, {-8, 45, 44, 1}, {20, -105, -79, 8}, {-15, 7, -32, 45}});
 
-        Matrice inverse = matrice.inverse();
+        //Matrice inverse = matrice.inverse();
 
-        System.out.println("inverse = " + inverse);
+       // System.out.println("inverse = " + inverse);
 
-        System.out.println(Matrice.produit(matrice, inverse));
+        //System.out.println(Matrice.produit(matrice, inverse));
 
-        System.out.println("det(3, matrice) = " + getDeterminant(matrice));
+        //System.out.println("det(3, matrice) = " + getDeterminant(matrice));
+
+        System.out.println(matrice.norme_1());
 
         matrice.conditionnement(new ConditionnementNorme1());
 
